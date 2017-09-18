@@ -76,6 +76,6 @@ impl Context {
     pub fn is_frame_capturing(&self) -> bool { unsafe { self.table.IsFrameCapturing.unwrap()() != 0 } }
 
     pub unsafe fn end_frame_capture(&self, device: sys::RENDERDOC_DevicePointer, window: sys::RENDERDOC_WindowHandle) {
-        self.table.StartFrameCapture.unwrap()(device, window);
+        self.table.EndFrameCapture.unwrap()(device, window);
     }
 }
