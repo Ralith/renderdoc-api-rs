@@ -1,0 +1,6 @@
+[package]
+name = "renderdoc-api-sys"
+version = "0.1.0"
+authors = ["Benjamin Saunders <ben.e.saunders@gmail.com>"]
+
+[dependencies]
