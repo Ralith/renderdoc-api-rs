@@ -12,52 +12,35 @@ use std::os::raw::{c_int, c_char};
 
 pub struct Context {
     table: &'static sys::RENDERDOC_API_1_1_1,
-    _lib: Lib
 }
 
-#[cfg(windows)]
-struct Lib(winapi::HMODULE);
-#[cfg(unix)]
-struct Lib(*mut libc::c_void);
-
-unsafe impl Send for Lib {}
-
-impl Drop for Lib {
-    fn drop(&mut self) {
-        #[cfg(unix)]
-        unsafe {
-            libc::dlclose(self.0);
-        }
-    }
-}
 impl Context {
     pub fn new() -> Option<Self> {
         #[cfg(unix)]
-        let (lib, entry) = unsafe {
+        let entry = unsafe {
             let lib = libc::dlopen(b"librenderdoc.so\0".as_ptr() as *const c_char,
                                    libc::RTLD_NOLOAD);
             if lib.is_null() { return None; }
-            let lib = Lib(lib);
-            let entry = libc::dlsym(lib.0, b"RENDERDOC_GetAPI\0".as_ptr() as *const c_char);
+            let entry = libc::dlsym(lib, b"RENDERDOC_GetAPI\0".as_ptr() as *const c_char);
             if entry.is_null() { return None; }
-            (lib, mem::transmute::<_, sys::pRENDERDOC_GetAPI>(entry).unwrap())
+            mem::transmute::<_, sys::pRENDERDOC_GetAPI>(entry).unwrap()
         };
 
         #[cfg(windows)]
-        let (lib, entry) = unsafe {
+        let entry = unsafe {
             // No drop needed here
             let module = kernel32::GetModuleHandleA(b"renderdoc.dll\0".as_ptr() as *const c_char);
             if module.is_null() { return None; }
             let entry = kernel32::GetProcAddress(module, b"RENDERDOC_GetAPI\0".as_ptr() as *const c_char);
             if entry.is_null() { return None; }
-            (Lib(module), mem::transmute::<_, sys::pRENDERDOC_GetAPI>(entry).unwrap())
+            mem::transmute::<_, sys::pRENDERDOC_GetAPI>(entry).unwrap()
         };
 
         unsafe {
             let mut table: *mut sys::RENDERDOC_API_1_1_1 = mem::uninitialized();
             let status = entry(sys::eRENDERDOC_API_Version_1_1_1, &mut table as *mut _ as *mut _);
             if status == 0 { return None; }
-            Some(Context { _lib: lib, table: &*table })
+            Some(Context { table: &*table })
         }
     }
 
