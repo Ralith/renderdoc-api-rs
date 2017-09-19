@@ -34,7 +34,7 @@ impl Context {
     pub fn new() -> Option<Self> {
         #[cfg(unix)]
         let (lib, entry) = unsafe {
-            let lib = libc::dlopen(b"libm.so\0".as_ptr() as *const c_char,
+            let lib = libc::dlopen(b"librenderdoc.so\0".as_ptr() as *const c_char,
                                    libc::RTLD_NOLOAD);
             if lib.is_null() { return None; }
             let lib = Lib(lib);
