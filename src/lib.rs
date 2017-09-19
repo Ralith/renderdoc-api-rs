@@ -52,12 +52,20 @@ impl Context {
         }
     }
 
+    /// Immediately begin a frame capture
+    ///
+    /// # Safety
+    /// `device` and `window` must be pointers supported by renderdoc for their respective types, or null.
     pub unsafe fn start_frame_capture(&self, device: sys::RENDERDOC_DevicePointer, window: sys::RENDERDOC_WindowHandle) {
         self.table.StartFrameCapture.unwrap()(device, window);
     }
 
     pub fn is_frame_capturing(&self) -> bool { unsafe { self.table.IsFrameCapturing.unwrap()() != 0 } }
 
+    /// Complete a frame capture began with `start_frame_capture`
+    ///
+    /// # Safety
+    /// `device` and `window` must be pointers supported by renderdoc for their respective types, or null.
     pub unsafe fn end_frame_capture(&self, device: sys::RENDERDOC_DevicePointer, window: sys::RENDERDOC_WindowHandle) {
         self.table.EndFrameCapture.unwrap()(device, window);
     }
