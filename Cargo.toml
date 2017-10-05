@@ -2,6 +2,8 @@
 name = "renderdoc-api"
 version = "0.1.0"
 authors = ["Benjamin Saunders <ben.e.saunders@gmail.com>"]
+keywords = ["renderdoc"]
+categories = [ "api-bindings" ]
 
 [dependencies]
 renderdoc-api-sys = { path = "renderdoc-api-sys", version = "0.1" }
