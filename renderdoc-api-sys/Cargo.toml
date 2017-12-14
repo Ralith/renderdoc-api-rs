@@ -2,6 +2,9 @@
 name = "renderdoc-api-sys"
 version = "0.1.0"
 authors = ["Benjamin Saunders <ben.e.saunders@gmail.com>"]
-
+license = "Apache-2.0"
 keywords = ["renderdoc"]
 categories = [ "external-ffi-bindings" ]
+description = "Raw bindings to the renderdoc API"
+repository = "https://github.com/Ralith/renderdoc-api-rs"
+maintenance = { status = "passively-maintained" }

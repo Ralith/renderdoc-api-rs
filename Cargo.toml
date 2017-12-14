@@ -2,8 +2,13 @@
 name = "renderdoc-api"
 version = "0.1.0"
 authors = ["Benjamin Saunders <ben.e.saunders@gmail.com>"]
+license = "Apache-2.0"
 keywords = ["renderdoc"]
 categories = [ "api-bindings" ]
+description = "High-level bindings to the renderdoc API"
+repository = "https://github.com/Ralith/renderdoc-api-rs"
+maintenance = { status = "experimental" }
+is-it-maintained-open-issues = { repository = "https://github.com/Ralith/renderdoc-api-rs" }
 
 [dependencies]
 renderdoc-api-sys = { path = "renderdoc-api-sys", version = "0.1" }
